@@ -20,4 +20,41 @@
   </form>
   <button onclick="window.location.href='index.html'">Volver</button>
 </div>
+
+  <script>
+  const API_URL = "http://localhost:3000/restaurantes";
+
+  document.getElementById("form-agregar").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const restaurante = {
+      nombre: document.getElementById("nombre").value,
+      direccion: document.getElementById("direccion").value,
+      ciudad: document.getElementById("ciudad").value,
+      tipo_comida: document.getElementById("tipo_comida").value,
+      calificacion: parseFloat(document.getElementById("calificacion").value),
+      foto_url: document.getElementById("foto_url").value
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(restaurante)
+      });
+
+      if (res.ok) {
+        alert("Restaurante creado correctamente");
+        window.location.href = "index.html";
+      } else {
+        alert("Error al crear restaurante");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error al crear restaurante");
+    }
+  });
+</script>
+
 </body>
+</html>
