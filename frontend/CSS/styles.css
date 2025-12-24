@@ -62,3 +62,16 @@ h1 {
   flex: 1;
 }
 
+/* Títulos internos */
+.restaurante h2 {
+  margin-bottom: 5px;
+  color: #222;
+}
+
+/* Párrafos */
+.restaurante p {
+  margin-bottom: 4px;
+  color: #555;
+}
+
+
