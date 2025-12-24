@@ -109,6 +109,47 @@ h1 {
   transition: background-color 0.2s;
 }
 
+/* Formulario de edición/agregar */
+form, #form-editar {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form input, form button, #form-editar input, #form-editar button {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+form button, #form-editar button {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+form button:hover, #form-editar button:hover {
+  background-color: #0056b3;
+}
+
+/* Botón cancelar */
+#cancelar-edicion, #cancelar {
+  background-color: #dc3545;
+}
+
+#cancelar-edicion:hover, #cancelar:hover {
+  background-color: #a71d2a;
+}
+
 #btn-agregar:hover {
   background-color: #1e7e34;
 }
