@@ -1,1 +1,15 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
+/* Body */
+body {
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+}
