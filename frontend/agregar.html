@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Restaurante</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+
+  <div class="container">
+  <h1>Agregar Restaurante</h1>
+  <form id="form-agregar">
+    <input type="text" id="nombre" placeholder="Nombre" required>
+    <input type="text" id="direccion" placeholder="Dirección" required>
+    <input type="text" id="ciudad" placeholder="Ciudad" required>
+    <input type="text" id="tipo_comida" placeholder="Tipo de comida" required>
+    <input type="number" id="calificacion" placeholder="Calificación" min="0" max="5" required>
+    <input type="text" id="foto_url" placeholder="URL de la foto" required>
+    <button type="submit">Crear</button>
+  </form>
+  <button onclick="window.location.href='index.html'">Volver</button>
+</div>
+
+  <script>
+  const API_URL = "http://localhost:3000/restaurantes";
+
+  document.getElementById("form-agregar").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const restaurante = {
+      nombre: document.getElementById("nombre").value,
+      direccion: document.getElementById("direccion").value,
+      ciudad: document.getElementById("ciudad").value,
+      tipo_comida: document.getElementById("tipo_comida").value,
+      calificacion: parseFloat(document.getElementById("calificacion").value),
+      foto_url: document.getElementById("foto_url").value
+    };
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(restaurante)
+      });
+
+      if (res.ok) {
+        alert("Restaurante creado correctamente");
+        window.location.href = "index.html";
+      } else {
+        alert("Error al crear restaurante");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error al crear restaurante");
+    }
+  });
+</script>
+
+</body>
+</html>
