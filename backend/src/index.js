@@ -1,20 +1,13 @@
-import express from "express";
 import dotenv from "dotenv";
-import pkg from "pg";
-const { Pool } = pkg;
-
 dotenv.config();
+
+import express from "express";
+import restaurantesRoutes from "./routes/restaurantes.js";
 
 const app = express();
 app.use(express.json());
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
-});
-
-app.get("/", (req, res) => {
-  res.send("Backend funcionando");
-});
+app.use("/restaurantes", restaurantesRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
