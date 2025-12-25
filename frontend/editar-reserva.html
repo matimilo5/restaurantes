@@ -5,8 +5,7 @@
   <title>Editar Reserva</title>
   <link rel="stylesheet" href="CSS/styles.css">
 </head>
-
-  <body>
+<body>
   <div class="container">
     <h1>Editar Reserva</h1>
     <input type="text" id="nombre" placeholder="Nombre">
@@ -17,7 +16,7 @@
     <button id="cancelar">Cancelar</button>
   </div>
 
-      <script>
+  <script>
     const API_RESERVAS = "http://localhost:3000/reservas";
     const params = new URLSearchParams(window.location.search);
     const reserva_id = params.get("id");
@@ -81,4 +80,3 @@
   </script>
 </body>
 </html>
-
