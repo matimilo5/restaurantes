@@ -23,3 +23,12 @@
     <button id="btn-agregar-ingrediente">Agregar Ingrediente</button>
 
   </div>
+
+    <script>
+    const API_PLATOS = "http://localhost:3000/platos";
+    const API_INGREDIENTES = "http://localhost:3000/ingredientes";
+
+    const params = new URLSearchParams(window.location.search);
+    const platoId = params.get("id");
+    const restauranteId = params.get("restaurante_id");
+
