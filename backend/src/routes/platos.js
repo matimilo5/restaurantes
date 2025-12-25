@@ -62,3 +62,24 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: "Error al crear plato" });
   }
 });
+
+// PUT editar plato
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { nombre, descripcion, precio, tiempo_elaboracion, nivel, foto_url, restaurante_id } = req.body;
+  try {
+    const result = await pool.query(
+      `UPDATE platos SET 
+       nombre=$1, descripcion=$2, precio=$3, tiempo_elaboracion=$4, nivel=$5, foto_url=$6, restaurante_id=$7
+       WHERE id=$8 RETURNING *`,
+      [nombre, descripcion, precio, tiempo_elaboracion, nivel, foto_url, restaurante_id, id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Plato no encontrado" });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al editar plato" });
+  }
+});
