@@ -5,8 +5,7 @@
   <title>Restaurante</title>
   <link rel="stylesheet" href="CSS/styles.css">
 </head>
-
-  <body>
+<body>
 
   <div id="overlay"></div>
 
@@ -29,7 +28,7 @@
     <button id="btn-agregar-reserva">Agregar Reserva</button>
   </div>
 
-     <script>
+  <script>
     const API_RESTAURANTES = "http://localhost:3000/restaurantes";
     const API_PLATOS = "http://localhost:3000/platos";
     const API_RESERVAS = "http://localhost:3000/reservas/restaurante";
@@ -43,7 +42,7 @@
       window.location.href = "index.html";
     });
 
-        async function cargarRestaurante() {
+    async function cargarRestaurante() {
       try {
         const res = await fetch(`${API_RESTAURANTES}/${restauranteId}`);
         const restaurante = await res.json();
@@ -59,7 +58,7 @@
       }
     }
 
-        async function cargarPlatos() {
+    async function cargarPlatos() {
       try {
         const res = await fetch(`${API_PLATOS}?restaurante_id=${restauranteId}`);
         platos = await res.json();
@@ -129,7 +128,13 @@
           });
         });
 
-        async function cargarReservas() {
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar los platos");
+      }
+    }
+
+    async function cargarReservas() {
       try {
         const res = await fetch(`${API_RESERVAS}/${restauranteId}`);
         reservas = await res.json();
@@ -205,10 +210,3 @@
 
 </body>
 </html>
-
-
-      } catch (error) {
-        console.error(error);
-        alert("Error al cargar los platos");
-      }
-    }
