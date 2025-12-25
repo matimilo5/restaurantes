@@ -76,6 +76,9 @@
   color: #222;
 }
 
+
+
+
 /* Reset básico */
 * {
   box-sizing: border-box;
@@ -232,6 +235,10 @@ form button:hover, #form-editar button:hover {
   background-color: #a71d2a;
 }
 
+
+
+
+
 /* PLATOS */
 /* Reset básico */
 * {
@@ -385,7 +392,10 @@ button:hover, a:hover {
   margin-bottom: 15px;
 }
 
-/* RESERVAS */
+
+
+
+/* ===== RESERVAS ===== */
 
 #lista-reservas {
   display: flex;
@@ -515,6 +525,5 @@ button:hover, a:hover {
 .ingrediente button:hover {
   opacity: 0.9;
 }
-
 
 
