@@ -94,3 +94,11 @@
           contenedor.appendChild(div);
         });
 
+        // Ver ingredientes
+        document.querySelectorAll(".ver-ingredientes").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const platoId = btn.dataset.id;
+            window.location.href =
+              `plato.html?id=${platoId}&restaurante_id=${restauranteId}`;
+          });
+        });
