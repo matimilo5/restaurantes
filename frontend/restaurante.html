@@ -119,3 +119,18 @@
             }
           });
         });
+
+        // Editar plato
+        document.querySelectorAll(".editar-plato").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            window.location.href =
+              `editar-plato.html?id=${id}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar los platos");
+      }
+    }
