@@ -43,3 +43,18 @@
       window.location.href = "index.html";
     });
 
+        async function cargarRestaurante() {
+      try {
+        const res = await fetch(`${API_RESTAURANTES}/${restauranteId}`);
+        const restaurante = await res.json();
+
+        document.getElementById("nombre-restaurante").textContent = restaurante.nombre;
+        document.getElementById("direccion-restaurante").textContent = `Dirección: ${restaurante.direccion}`;
+        document.getElementById("ciudad-restaurante").textContent = `Ciudad: ${restaurante.ciudad}`;
+        document.getElementById("tipo-restaurante").textContent = `Tipo: ${restaurante.tipo_comida}`;
+        document.getElementById("calificacion-restaurante").textContent = `Calificación: ⭐ ${restaurante.calificacion}`;
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar el restaurante");
+      }
+    }
