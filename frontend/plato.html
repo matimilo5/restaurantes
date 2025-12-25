@@ -83,3 +83,14 @@
           contenedor.appendChild(div);
         });
 
+        // Borrar ingrediente
+        document.querySelectorAll(".borrar").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            if (confirm("¿Querés borrar este ingrediente?")) {
+              await fetch(`${API_INGREDIENTES}/${btn.dataset.id}`, {
+                method: "DELETE"
+              });
+              cargarIngredientes();
+            }
+          });
+        });
