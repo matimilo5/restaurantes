@@ -32,3 +32,8 @@
     const platoId = params.get("id");
     const restauranteId = params.get("restaurante_id");
 
+      // Volver al restaurante
+    document.getElementById("btn-volver").addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restauranteId}`;
+    });
+
