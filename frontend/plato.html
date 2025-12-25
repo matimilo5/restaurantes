@@ -37,3 +37,20 @@
       window.location.href = `restaurante.html?id=${restauranteId}`;
     });
 
+       // Cargar datos del plato
+    async function cargarPlato() {
+      try {
+        const res = await fetch(`${API_PLATOS}/${platoId}`);
+        const p = await res.json();
+
+        document.getElementById("nombre-plato").textContent = p.nombre;
+        document.getElementById("descripcion-plato").textContent = p.descripcion;
+        document.getElementById("precio-plato").textContent = `Precio: $${p.precio}`;
+        document.getElementById("tiempo-plato").textContent = `Tiempo: ${p.tiempo_elaboracion} min`;
+        document.getElementById("nivel-plato").textContent = `Nivel: ${p.nivel}`;
+      } catch (e) {
+        console.error(e);
+        alert("Error al cargar plato");
+      }
+    }
+
