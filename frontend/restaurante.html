@@ -102,3 +102,20 @@
               `plato.html?id=${platoId}&restaurante_id=${restauranteId}`;
           });
         });
+
+        // Borrar plato
+        document.querySelectorAll(".borrar-plato").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Querés borrar este plato?")) {
+              try {
+                const res = await fetch(`${API_PLATOS}/${id}`, { method: "DELETE" });
+                if (res.ok) cargarPlatos();
+                else alert("Error al borrar plato");
+              } catch (e) {
+                console.error(e);
+                alert("Error al borrar plato");
+              }
+            }
+          });
+        });
