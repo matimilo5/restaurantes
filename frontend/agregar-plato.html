@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Plato</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+  <body>
+
+  <div class="container">
+    <h1>Agregar Plato</h1>
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="descripcion" placeholder="Descripción">
+    <input type="number" id="precio" placeholder="Precio">
+    <input type="number" id="tiempo_elaboracion" placeholder="Tiempo de elaboración (min)">
+    <input type="text" id="nivel" placeholder="Nivel">
+    <input type="text" id="foto_url" placeholder="URL de foto">
+    <button id="guardar">Agregar</button>
+    <button id="cancelar">Cancelar</button>
+  </div>
+
+    <script>
+    const API_PLATOS = "http://localhost:3000/platos";
+    const params = new URLSearchParams(window.location.search);
+    const restaurante_id = Number(params.get("restaurante_id")); // convertir a número
+
+    // Guardar plato
+    document.getElementById("guardar").addEventListener("click", async () => {
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        descripcion: document.getElementById("descripcion").value,
+        precio: Number(document.getElementById("precio").value),
+        tiempo_elaboracion: Number(document.getElementById("tiempo_elaboracion").value),
+        nivel: document.getElementById("nivel").value,
+        foto_url: document.getElementById("foto_url").value,
+        restaurante_id: restaurante_id
+      };
+
+      try {
+        const res = await fetch(API_PLATOS, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if(res.ok) {
+          alert("Plato agregado correctamente");
+          window.location.href = `restaurante.html?id=${restaurante_id}`;
+        } else {
+          alert("Error al agregar plato");
+        }
+      } catch(e) {
+        console.error(e);
+        alert("Error al agregar plato");
+      }
+    });
+
+    // Cancelar y volver al restaurante
+    document.getElementById("cancelar").addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restaurante_id}`;
+    });
+  </script>
+
+    </body>
+</html>
