@@ -58,3 +58,39 @@
         alert("Error al cargar el restaurante");
       }
     }
+
+        async function cargarPlatos() {
+      try {
+        const res = await fetch(`${API_PLATOS}?restaurante_id=${restauranteId}`);
+        platos = await res.json();
+
+        const contenedor = document.getElementById("lista-platos");
+        contenedor.innerHTML = "";
+
+        platos.forEach(p => {
+          const div = document.createElement("div");
+          div.className = "plato";
+
+          div.innerHTML = `
+            <img src="${p.foto_url}" alt="${p.nombre}">
+            <div>
+              <h3>${p.nombre}</h3>
+              <p>${p.descripcion}</p>
+              <p>Precio: $${p.precio}</p>
+              <p>Tiempo: ${p.tiempo_elaboracion} min</p>
+              <p>Nivel: ${p.nivel}</p>
+
+              <button class="ver-ingredientes" data-id="${p.id}">
+                Ver ingredientes
+              </button>
+              <button class="editar-plato" data-id="${p.id}">
+                Editar
+              </button>
+              <button class="borrar-plato" data-id="${p.id}">
+                Borrar
+              </button>
+            </div>
+          `;
+          contenedor.appendChild(div);
+        });
+
