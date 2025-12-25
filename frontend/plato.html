@@ -54,3 +54,32 @@
       }
     }
 
+       // Cargar ingredientes del plato
+    async function cargarIngredientes() {
+      try {
+        const res = await fetch(`${API_INGREDIENTES}/plato/${platoId}`);
+        const ingredientes = await res.json();
+
+        const contenedor = document.getElementById("lista-ingredientes");
+        contenedor.innerHTML = "";
+
+        ingredientes.forEach(i => {
+          const div = document.createElement("div");
+          div.className = "ingrediente";
+
+          div.innerHTML = `
+            <img src="${i.foto_url}" alt="${i.nombre}">
+            <div>
+              <h3>${i.nombre}</h3>
+              <p>Origen: ${i.origen}</p>
+              <p>Calorías: ${i.calorias}</p>
+              <p>Cantidad: ${i.cantidad}</p>
+              <p>Tipo: ${i.tipo}</p>
+              <button class="editar" data-id="${i.id}">Editar</button>
+              <button class="borrar" data-id="${i.id}">Borrar</button>
+            </div>
+          `;
+
+          contenedor.appendChild(div);
+        });
+
