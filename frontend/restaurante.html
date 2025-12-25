@@ -28,3 +28,18 @@
     <div id="lista-reservas"></div>
     <button id="btn-agregar-reserva">Agregar Reserva</button>
   </div>
+
+     <script>
+    const API_RESTAURANTES = "http://localhost:3000/restaurantes";
+    const API_PLATOS = "http://localhost:3000/platos";
+    const API_RESERVAS = "http://localhost:3000/reservas/restaurante";
+    const params = new URLSearchParams(window.location.search);
+    const restauranteId = params.get("id");
+
+    let platos = [];
+    let reservas = [];
+
+    document.getElementById("btn-home").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
