@@ -168,5 +168,69 @@ h1 {
   transition: background-color 0.2s;
 }
 
+/* Hover para botones/enlaces */
+.restaurante a:hover,
+.restaurante button:hover {
+  background-color: #0056b3;
+}
+
+/* Botón de agregar */
+#btn-agregar {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#btn-agregar:hover {
+  background-color: #1e7e34;
+}
+
+/* Formulario de edición/agregar */
+form, #form-editar {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form input, form button, #form-editar input, #form-editar button {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+form button, #form-editar button {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+form button:hover, #form-editar button:hover {
+  background-color: #0056b3;
+}
+
+/* Botón cancelar */
+#cancelar-edicion, #cancelar {
+  background-color: #dc3545;
+}
+
+#cancelar-edicion:hover, #cancelar:hover {
+  background-color: #a71d2a;
+}
+
 
 
