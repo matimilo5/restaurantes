@@ -81,3 +81,42 @@ router.post("/", async (req, res) => {
   }
 });
 
+/* PUT editar ingrediente */
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    nombre,
+    origen,
+    calorias,
+    cantidad,
+    tipo,
+    foto_url,
+    plato_id
+  } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE ingredientes SET
+        nombre=$1,
+        origen=$2,
+        calorias=$3,
+        cantidad=$4,
+        tipo=$5,
+        foto_url=$6,
+        plato_id=$7
+       WHERE id=$8
+       RETURNING *`,
+      [nombre, origen, calorias, cantidad, tipo, foto_url, plato_id, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Ingrediente no encontrado" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al editar ingrediente" });
+  }
+});
+
