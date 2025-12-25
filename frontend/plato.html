@@ -5,8 +5,7 @@
   <title>Plato</title>
   <link rel="stylesheet" href="CSS/styles.css">
 </head>
-
-  <body>
+<body>
 
   <div class="container">
 
@@ -24,7 +23,7 @@
 
   </div>
 
-    <script>
+  <script>
     const API_PLATOS = "http://localhost:3000/platos";
     const API_INGREDIENTES = "http://localhost:3000/ingredientes";
 
@@ -32,12 +31,12 @@
     const platoId = params.get("id");
     const restauranteId = params.get("restaurante_id");
 
-      // Volver al restaurante
+    // Volver al restaurante
     document.getElementById("btn-volver").addEventListener("click", () => {
       window.location.href = `restaurante.html?id=${restauranteId}`;
     });
 
-       // Cargar datos del plato
+    // Cargar datos del plato
     async function cargarPlato() {
       try {
         const res = await fetch(`${API_PLATOS}/${platoId}`);
@@ -54,7 +53,7 @@
       }
     }
 
-       // Cargar ingredientes del plato
+    // Cargar ingredientes del plato
     async function cargarIngredientes() {
       try {
         const res = await fetch(`${API_INGREDIENTES}/plato/${platoId}`);
