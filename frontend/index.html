@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurantes</title>
+  
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Restaurantes</h1>
+    <div id="lista-restaurantes"></div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:3000/restaurantes";
+
+    async function cargarRestaurantes() {
+      try {
+        const response = await fetch(API_URL);
+        const restaurantes = await response.json();
+
+        const contenedor = document.getElementById("lista-restaurantes");
+        contenedor.innerHTML = "";
+
+        restaurantes.forEach(r => {
+          const div = document.createElement("div");
+          div.className = "restaurante";
+
+          div.innerHTML = `
+            <img src="${r.foto_url}" alt="${r.nombre}">
+            <div>
+              <h2>${r.nombre}</h2>
+              <p><strong>Dirección:</strong> ${r.direccion}</p>
+              <p><strong>Ciudad:</strong> ${r.ciudad}</p>
+              <p><strong>Tipo:</strong> ${r.tipo_comida}</p>
+              <p><strong>Calificación:</strong> ⭐ ${r.calificacion}</p>
+              <a href="restaurante.html?id=${r.id}">Ver restaurante</a>
+            </div>
+          `;
+          contenedor.appendChild(div);
+        });
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar restaurantes");
+      }
+    }
+
+    cargarRestaurantes();
+  </script>
+
+</body>
+</html>

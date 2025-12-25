@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Restaurante</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+  <body>
+
+  <div class="container">
+    <h1>Editar Restaurante</h1>
+
+    <form id="form-editar">
+      <input type="text" id="editar-nombre" placeholder="Nombre" required>
+      <input type="text" id="editar-direccion" placeholder="Dirección" required>
+      <input type="text" id="editar-ciudad" placeholder="Ciudad" required>
+      <input type="text" id="editar-tipo" placeholder="Tipo de comida" required>
+      <input type="number" id="editar-calificacion" placeholder="Calificación" min="0" max="5" required>
+      <input type="text" id="editar-foto" placeholder="URL de foto" required>
+      <button type="submit">Guardar</button>
+      <button type="button" id="cancelar">Cancelar</button>
+    </form>
+  </div>
+
+     <script>
+    const API_URL = "http://localhost:3000/restaurantes";
+
+    // Tomar el id del query string
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    async function cargarDatos() {
+      try {
+        const res = await fetch(`${API_URL}/${id}`);
+        const r = await res.json();
+
+        document.getElementById("editar-nombre").value = r.nombre;
+        document.getElementById("editar-direccion").value = r.direccion;
+        document.getElementById("editar-ciudad").value = r.ciudad;
+        document.getElementById("editar-tipo").value = r.tipo_comida;
+        document.getElementById("editar-calificacion").value = r.calificacion;
+        document.getElementById("editar-foto").value = r.foto_url;
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar datos del restaurante");
+      }
+    }
+
+    document.getElementById("form-editar").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = {
+        nombre: document.getElementById("editar-nombre").value,
+        direccion: document.getElementById("editar-direccion").value,
+        ciudad: document.getElementById("editar-ciudad").value,
+        tipo_comida: document.getElementById("editar-tipo").value,
+        calificacion: document.getElementById("editar-calificacion").value,
+        foto_url: document.getElementById("editar-foto").value
+      };
+
+      try {
+        const res = await fetch(`${API_URL}/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          alert("Restaurante editado correctamente");
+          window.location.href = "index.html";
+        } else {
+          alert("Error al editar restaurante");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Error al editar restaurante");
+      }
+    });
+
+    document.getElementById("cancelar").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+    cargarDatos();
+  </script>
+
+</body>
+</html>
+
