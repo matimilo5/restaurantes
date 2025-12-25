@@ -20,3 +20,17 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Error al obtener reservas" });
   }
 });
+
+// GET reserva por id
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("SELECT * FROM reservas WHERE id=$1", [id]);
+    if (result.rowCount === 0) return res.status(404).json({ error: "Reserva no encontrada" });
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener reserva" });
+  }
+});
+
