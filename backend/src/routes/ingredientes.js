@@ -120,3 +120,25 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+/* DELETE ingrediente */
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      "DELETE FROM ingredientes WHERE id=$1 RETURNING *",
+      [id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Ingrediente no encontrado" });
+    }
+
+    res.json({ mensaje: "Ingrediente eliminado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al eliminar ingrediente" });
+  }
+});
+
+export default router;
+
