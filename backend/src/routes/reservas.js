@@ -49,3 +49,22 @@ router.get("/restaurante/:id", async (req, res) => {
   }
 });
 
+// POST crear reserva
+router.post("/", async (req, res) => {
+  const { fecha, hora, restaurante_id, nombre, descripcion } = req.body;
+  if (!fecha || !hora || !restaurante_id || !nombre) {
+    return res.status(400).json({ error: "Faltan datos obligatorios" });
+  }
+  try {
+    const result = await pool.query(
+      `INSERT INTO reservas (fecha, hora, restaurante_id, nombre, descripcion)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [fecha, hora, restaurante_id, nombre, descripcion || ""]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al crear reserva" });
+  }
+});
+
