@@ -385,6 +385,136 @@ button:hover, a:hover {
   margin-bottom: 15px;
 }
 
+/* RESERVAS */
+
+#lista-reservas {
+  display: flex;
+  flex-wrap: wrap;       
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.reserva {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px;
+  width: 260px;          
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.reserva p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+.reserva button {
+  margin-top: 8px;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.reserva .editar-reserva {
+  background-color: #3498db;
+  color: white;
+}
+
+.reserva .borrar-reserva {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.reserva button:hover {
+  opacity: 0.9;
+}
+
+
+
+
+/* INGREDIENTES */
+
+
+#lista-ingredientes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Card ingrediente */
+.ingrediente {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  width: 320px;
+  padding: 15px;
+
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/* Imagen ingrediente */
+.ingrediente img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Info ingrediente */
+.ingrediente .info {
+  flex: 1;
+}
+
+.ingrediente h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+}
+
+.ingrediente p {
+  margin: 2px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Botones */
+.ingrediente .acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ingrediente button {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ingrediente .editar-ingrediente {
+  background-color: #3498db;
+  color: white;
+}
+
+.ingrediente .borrar-ingrediente {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.ingrediente button:hover {
+  opacity: 0.9;
+}
 
 
 
