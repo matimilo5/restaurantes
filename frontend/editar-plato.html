@@ -21,3 +21,71 @@
     <button id="guardar">Guardar</button>
     <button id="cancelar">Cancelar</button>
   </div>
+
+    <script>
+    const API_PLATOS = "http://localhost:3000/platos";
+    const params = new URLSearchParams(window.location.search);
+    const plato_id = params.get("id");
+
+    let restaurante_id = null;
+
+    async function cargarPlato() {
+      try {
+        const res = await fetch(`${API_PLATOS}/${plato_id}`);
+        const plato = await res.json();
+
+        restaurante_id = plato.restaurante_id;
+
+        document.getElementById("nombre").value = plato.nombre;
+        document.getElementById("descripcion").value = plato.descripcion;
+        document.getElementById("precio").value = plato.precio;
+        document.getElementById("tiempo_elaboracion").value = plato.tiempo_elaboracion;
+        document.getElementById("nivel").value = plato.nivel;
+        document.getElementById("foto_url").value = plato.foto_url;
+
+      } catch (e) {
+        console.error(e);
+        alert("Error al cargar el plato");
+      }
+    }
+
+    cargarPlato();
+
+    document.getElementById("guardar").addEventListener("click", async () => {
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        descripcion: document.getElementById("descripcion").value,
+        precio: Number(document.getElementById("precio").value),
+        tiempo_elaboracion: Number(document.getElementById("tiempo_elaboracion").value),
+        nivel: document.getElementById("nivel").value,
+        foto_url: document.getElementById("foto_url").value,
+        restaurante_id: restaurante_id   // 👈 CLAVE PARA QUE NO DESAPAREZCA
+      };
+
+      try {
+        const res = await fetch(`${API_PLATOS}/${plato_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          alert("Plato editado correctamente");
+          window.location.href = `restaurante.html?id=${restaurante_id}`;
+        } else {
+          alert("Error al editar plato");
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Error al editar plato");
+      }
+    });
+
+    document.getElementById("cancelar").addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restaurante_id}`;
+    });
+  </script>
+
+</body>
+</html>
+
