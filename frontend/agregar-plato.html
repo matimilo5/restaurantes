@@ -19,3 +19,48 @@
     <button id="guardar">Agregar</button>
     <button id="cancelar">Cancelar</button>
   </div>
+
+    <script>
+    const API_PLATOS = "http://localhost:3000/platos";
+    const params = new URLSearchParams(window.location.search);
+    const restaurante_id = Number(params.get("restaurante_id")); // convertir a número
+
+    // Guardar plato
+    document.getElementById("guardar").addEventListener("click", async () => {
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        descripcion: document.getElementById("descripcion").value,
+        precio: Number(document.getElementById("precio").value),
+        tiempo_elaboracion: Number(document.getElementById("tiempo_elaboracion").value),
+        nivel: document.getElementById("nivel").value,
+        foto_url: document.getElementById("foto_url").value,
+        restaurante_id: restaurante_id
+      };
+
+      try {
+        const res = await fetch(API_PLATOS, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if(res.ok) {
+          alert("Plato agregado correctamente");
+          window.location.href = `restaurante.html?id=${restaurante_id}`;
+        } else {
+          alert("Error al agregar plato");
+        }
+      } catch(e) {
+        console.error(e);
+        alert("Error al agregar plato");
+      }
+    });
+
+    // Cancelar y volver al restaurante
+    document.getElementById("cancelar").addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restaurante_id}`;
+    });
+  </script>
+
+    </body>
+</html>
