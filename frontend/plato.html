@@ -94,3 +94,29 @@
             }
           });
         });
+
+        // Editar ingrediente
+        document.querySelectorAll(".editar").forEach(btn => {
+          btn.addEventListener("click", () => {
+            window.location.href =
+              `editar-ingrediente.html?id=${btn.dataset.id}&plato_id=${platoId}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+      } catch (e) {
+        console.error(e);
+        alert("Error al cargar ingredientes");
+      }
+    }
+
+    document.getElementById("btn-agregar-ingrediente").addEventListener("click", () => {
+      window.location.href =
+        `agregar-ingrediente.html?plato_id=${platoId}&restaurante_id=${restauranteId}`;
+    });
+
+    cargarPlato();
+    cargarIngredientes();
+  </script>
+
+</body>
+</html>
