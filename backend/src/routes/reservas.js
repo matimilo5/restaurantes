@@ -81,6 +81,23 @@ router.put("/:id", async (req, res) => {
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Reserva no encontrada" });
     }
+
+    // DELETE reserva
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("DELETE FROM reservas WHERE id=$1 RETURNING *", [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Reserva no encontrada" });
+    }
+    res.json({ mensaje: "Reserva eliminada correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al eliminar reserva" });
+  }
+});
+
+export default router;
     res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
