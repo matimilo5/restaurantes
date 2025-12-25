@@ -34,6 +34,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
 // GET reservas por restaurante
 router.get("/restaurante/:id", async (req, res) => {
   const { id } = req.params;
@@ -81,8 +82,14 @@ router.put("/:id", async (req, res) => {
     if (result.rowCount === 0) {
       return res.status(404).json({ error: "Reserva no encontrada" });
     }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al editar reserva" });
+  }
+});
 
-    // DELETE reserva
+// DELETE reserva
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -98,9 +105,3 @@ router.delete("/:id", async (req, res) => {
 });
 
 export default router;
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al editar reserva" });
-  }
-});
