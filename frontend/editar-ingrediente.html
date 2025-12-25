@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Ingrediente</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+  
+<body>
+
+  <div class="container">
+    <h1>Editar Ingrediente</h1>
+
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="origen" placeholder="Origen">
+    <input type="number" id="calorias" placeholder="Calorías">
+    <input type="text" id="cantidad" placeholder="Cantidad">
+    <input type="text" id="tipo" placeholder="Tipo">
+    <input type="text" id="foto_url" placeholder="URL de la foto">
+
+    <button id="guardar">Guardar</button>
+    <button id="cancelar">Cancelar</button>
+  </div>
+
+  <script>
+    const API_INGREDIENTES = "http://localhost:3000/ingredientes";
+    const params = new URLSearchParams(window.location.search);
+
+    const ingrediente_id = params.get("id");
+    const plato_id = params.get("plato_id");
+    const restaurante_id = params.get("restaurante_id");
+
+    async function cargarIngrediente() {
+      try {
+        const res = await fetch(`${API_INGREDIENTES}/${ingrediente_id}`);
+        const i = await res.json();
+
+        document.getElementById("nombre").value = i.nombre;
+        document.getElementById("origen").value = i.origen;
+        document.getElementById("calorias").value = i.calorias;
+        document.getElementById("cantidad").value = i.cantidad;
+        document.getElementById("tipo").value = i.tipo;
+        document.getElementById("foto_url").value = i.foto_url;
+      } catch (e) {
+        console.error(e);
+        alert("Error al cargar ingrediente");
+      }
+    }
+
+    document.getElementById("guardar").addEventListener("click", async () => {
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        origen: document.getElementById("origen").value,
+        calorias: document.getElementById("calorias").value,
+        cantidad: document.getElementById("cantidad").value,
+        tipo: document.getElementById("tipo").value,
+        foto_url: document.getElementById("foto_url").value,
+        plato_id: plato_id
+      };
+
+      try {
+        const res = await fetch(`${API_INGREDIENTES}/${ingrediente_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (res.ok) {
+          alert("Ingrediente editado");
+          window.location.href =
+            `plato.html?id=${plato_id}&restaurante_id=${restaurante_id}`;
+        } else {
+          alert("Error al editar ingrediente");
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Error al editar ingrediente");
+      }
+    });
+
+    document.getElementById("cancelar").addEventListener("click", () => {
+      window.location.href =
+        `plato.html?id=${plato_id}&restaurante_id=${restaurante_id}`;
+    });
+
+    cargarIngrediente();
+  </script>
+
+</body>
+</html>
+

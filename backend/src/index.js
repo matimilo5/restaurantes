@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express from "express";
+import ingredientesRoutes from "./routes/ingredientes.js";
 import platosRoutes from "./routes/platos.js"; 
 import reservasRoutes from "./routes/reservas.js";
 import restaurantesRoutes from "./routes/restaurantes.js";
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 });
 
 // Rutas
+app.use("/ingredientes", ingredientesRoutes);
 app.use("/platos", platosRoutes); 
 app.use("/reservas", reservasRoutes);
 app.use("/restaurantes", restaurantesRoutes);
@@ -30,4 +32,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
-
