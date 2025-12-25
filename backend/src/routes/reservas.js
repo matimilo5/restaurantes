@@ -68,3 +68,22 @@ router.post("/", async (req, res) => {
   }
 });
 
+// PUT editar reserva
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { fecha, hora, restaurante_id, nombre, descripcion } = req.body;
+  try {
+    const result = await pool.query(
+      `UPDATE reservas SET fecha=$1, hora=$2, restaurante_id=$3, nombre=$4, descripcion=$5
+       WHERE id=$6 RETURNING *`,
+      [fecha, hora, restaurante_id, nombre, descripcion || "", id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Reserva no encontrada" });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al editar reserva" });
+  }
+});
