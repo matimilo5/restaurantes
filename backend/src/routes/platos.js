@@ -83,3 +83,20 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({ error: "Error al editar plato" });
   }
 });
+
+// DELETE plato
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("DELETE FROM platos WHERE id=$1 RETURNING *", [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Plato no encontrado" });
+    }
+    res.json({ mensaje: "Plato eliminado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al eliminar plato" });
+  }
+});
+
+export default router;
