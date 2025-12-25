@@ -129,6 +129,84 @@
           });
         });
 
+        async function cargarReservas() {
+      try {
+        const res = await fetch(`${API_RESERVAS}/${restauranteId}`);
+        reservas = await res.json();
+
+        const contenedor = document.getElementById("lista-reservas");
+        contenedor.innerHTML = "";
+
+        reservas.forEach(r => {
+          const div = document.createElement("div");
+          div.className = "reserva";
+
+          const fechaFormateada =
+            new Date(r.fecha).toLocaleDateString("es-AR");
+
+          div.innerHTML = `
+            <p><strong>Nombre:</strong> ${r.nombre}</p>
+            <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+            <p><strong>Hora:</strong> ${r.hora}</p>
+            <p><strong>Descripción:</strong> ${r.descripcion}</p>
+            <button class="editar-reserva" data-id="${r.id}">Editar</button>
+            <button class="borrar-reserva" data-id="${r.id}">Borrar</button>
+          `;
+          contenedor.appendChild(div);
+        });
+
+        document.querySelectorAll(".borrar-reserva").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Querés borrar esta reserva?")) {
+              try {
+                const res = await fetch(
+                  `http://localhost:3000/reservas/${id}`,
+                  { method: "DELETE" }
+                );
+                if (res.ok) cargarReservas();
+                else alert("Error al borrar reserva");
+              } catch (e) {
+                console.error(e);
+                alert("Error al borrar reserva");
+              }
+            }
+          });
+        });
+
+        document.querySelectorAll(".editar-reserva").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            window.location.href =
+              `editar-reserva.html?id=${id}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar las reservas");
+      }
+    }
+
+    document.getElementById("btn-agregar-plato").addEventListener("click", () => {
+      window.location.href =
+        `agregar-plato.html?restaurante_id=${restauranteId}`;
+    });
+
+    document.getElementById("btn-agregar-reserva").addEventListener("click", () => {
+      window.location.href =
+        `agregar-reserva.html?restaurante_id=${restauranteId}`;
+    });
+
+    cargarRestaurante();
+    cargarPlatos();
+    cargarReservas();
+  </script>
+
+</body>
+</html>
+
+
       } catch (error) {
         console.error(error);
         alert("Error al cargar los platos");
