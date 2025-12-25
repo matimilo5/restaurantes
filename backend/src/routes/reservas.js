@@ -34,3 +34,18 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// GET reservas por restaurante
+router.get("/restaurante/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      "SELECT * FROM reservas WHERE restaurante_id = $1 ORDER BY fecha, hora",
+      [id]
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener reservas del restaurante" });
+  }
+});
+
