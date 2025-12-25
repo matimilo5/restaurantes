@@ -35,3 +35,46 @@
   color: #555;
 }
 
+/* Caja superior */
+.container {
+  background-color: #f4f6f8;
+  padding: 30px;
+}
+
+.container > h1,
+.container > p {
+  text-align: center;
+}
+
+/* Card de info del restaurante */
+.container > h1,
+.container > p:nth-child(3),
+.container > p:nth-child(4),
+.container > p:nth-child(5),
+.container > p:nth-child(6) {
+  background: #ffffff;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12px 20px;
+}
+
+/* Agrupar todo como bloque */
+.container > h1 {
+  border-radius: 16px 16px 0 0;
+}
+
+.container > p:nth-child(6) {
+  border-radius: 0 0 16px 16px;
+  margin-bottom: 30px;
+}
+
+/* Separadores */
+.container h2 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+
+
