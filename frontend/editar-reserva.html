@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Reserva</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+  <body>
+  <div class="container">
+    <h1>Editar Reserva</h1>
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="descripcion" placeholder="Descripción">
+    <input type="date" id="fecha">
+    <input type="time" id="hora">
+    <button id="guardar">Guardar</button>
+    <button id="cancelar">Cancelar</button>
+  </div>
+
+      <script>
+    const API_RESERVAS = "http://localhost:3000/reservas";
+    const params = new URLSearchParams(window.location.search);
+    const reserva_id = params.get("id");
+    let restaurante_id = null;
+
+    async function cargarReserva() {
+      try {
+        const res = await fetch(`${API_RESERVAS}/${reserva_id}`);
+        const r = await res.json();
+
+        restaurante_id = r.restaurante_id;
+
+        // Formatear fecha y hora para inputs
+        document.getElementById("nombre").value = r.nombre;
+        document.getElementById("descripcion").value = r.descripcion;
+        document.getElementById("fecha").value = r.fecha.split("T")[0]; // YYYY-MM-DD
+        document.getElementById("hora").value = r.hora.slice(0,5);       // HH:MM
+      } catch(e) {
+        console.error(e);
+        alert("Error al cargar reserva");
+      }
+    }
+
+    document.getElementById("guardar").addEventListener("click", async () => {
+      const nombre = document.getElementById("nombre").value.trim();
+      const descripcion = document.getElementById("descripcion").value.trim();
+      const fecha = document.getElementById("fecha").value;
+      const hora = document.getElementById("hora").value;
+
+      if (!nombre || !fecha || !hora) {
+        alert("Nombre, fecha y hora son obligatorios");
+        return;
+      }
+
+      const data = { nombre, descripcion, fecha, hora, restaurante_id };
+
+      try {
+        const res = await fetch(`${API_RESERVAS}/${reserva_id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if(res.ok) {
+          alert("Reserva editada correctamente");
+          window.location.href = `restaurante.html?id=${restaurante_id}`;
+        } else {
+          alert("Error al editar reserva");
+        }
+      } catch(e) {
+        console.error(e);
+        alert("Error al editar reserva");
+      }
+    });
+
+    document.getElementById("cancelar").addEventListener("click", () => {
+      if (restaurante_id) window.location.href = `restaurante.html?id=${restaurante_id}`;
+      else window.history.back();
+    });
+
+    cargarReserva();
+  </script>
+</body>
+</html>
+

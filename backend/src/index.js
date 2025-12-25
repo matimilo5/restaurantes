@@ -3,6 +3,8 @@ dotenv.config();
 
 import express from "express";
 import ingredientesRoutes from "./routes/ingredientes.js";
+import platosRoutes from "./routes/platos.js"; 
+import reservasRoutes from "./routes/reservas.js";
 import restaurantesRoutes from "./routes/restaurantes.js";
 
 const app = express();
@@ -21,6 +23,8 @@ app.use((req, res, next) => {
 
 // Rutas
 app.use("/ingredientes", ingredientesRoutes);
+app.use("/platos", platosRoutes); 
+app.use("/reservas", reservasRoutes);
 app.use("/restaurantes", restaurantesRoutes);
 
 // Puerto

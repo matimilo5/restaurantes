@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurante</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+  <body>
+
+  <div id="overlay"></div>
+
+  <div class="container">
+    <!-- Botón Home -->
+    <button id="btn-home">Home</button>
+
+    <h1 id="nombre-restaurante"></h1>
+    <p id="direccion-restaurante"></p>
+    <p id="ciudad-restaurante"></p>
+    <p id="tipo-restaurante"></p>
+    <p id="calificacion-restaurante"></p>
+
+    <h2>Platos</h2>
+    <div id="lista-platos"></div>
+    <button id="btn-agregar-plato">Agregar Plato</button>
+
+    <h2>Reservas</h2>
+    <div id="lista-reservas"></div>
+    <button id="btn-agregar-reserva">Agregar Reserva</button>
+  </div>
+
+     <script>
+    const API_RESTAURANTES = "http://localhost:3000/restaurantes";
+    const API_PLATOS = "http://localhost:3000/platos";
+    const API_RESERVAS = "http://localhost:3000/reservas/restaurante";
+    const params = new URLSearchParams(window.location.search);
+    const restauranteId = params.get("id");
+
+    let platos = [];
+    let reservas = [];
+
+    document.getElementById("btn-home").addEventListener("click", () => {
+      window.location.href = "index.html";
+    });
+
+        async function cargarRestaurante() {
+      try {
+        const res = await fetch(`${API_RESTAURANTES}/${restauranteId}`);
+        const restaurante = await res.json();
+
+        document.getElementById("nombre-restaurante").textContent = restaurante.nombre;
+        document.getElementById("direccion-restaurante").textContent = `Dirección: ${restaurante.direccion}`;
+        document.getElementById("ciudad-restaurante").textContent = `Ciudad: ${restaurante.ciudad}`;
+        document.getElementById("tipo-restaurante").textContent = `Tipo: ${restaurante.tipo_comida}`;
+        document.getElementById("calificacion-restaurante").textContent = `Calificación: ⭐ ${restaurante.calificacion}`;
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar el restaurante");
+      }
+    }
+
+        async function cargarPlatos() {
+      try {
+        const res = await fetch(`${API_PLATOS}?restaurante_id=${restauranteId}`);
+        platos = await res.json();
+
+        const contenedor = document.getElementById("lista-platos");
+        contenedor.innerHTML = "";
+
+        platos.forEach(p => {
+          const div = document.createElement("div");
+          div.className = "plato";
+
+          div.innerHTML = `
+            <img src="${p.foto_url}" alt="${p.nombre}">
+            <div>
+              <h3>${p.nombre}</h3>
+              <p>${p.descripcion}</p>
+              <p>Precio: $${p.precio}</p>
+              <p>Tiempo: ${p.tiempo_elaboracion} min</p>
+              <p>Nivel: ${p.nivel}</p>
+
+              <button class="ver-ingredientes" data-id="${p.id}">
+                Ver ingredientes
+              </button>
+              <button class="editar-plato" data-id="${p.id}">
+                Editar
+              </button>
+              <button class="borrar-plato" data-id="${p.id}">
+                Borrar
+              </button>
+            </div>
+          `;
+          contenedor.appendChild(div);
+        });
+
+        // Ver ingredientes
+        document.querySelectorAll(".ver-ingredientes").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const platoId = btn.dataset.id;
+            window.location.href =
+              `plato.html?id=${platoId}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+        // Borrar plato
+        document.querySelectorAll(".borrar-plato").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Querés borrar este plato?")) {
+              try {
+                const res = await fetch(`${API_PLATOS}/${id}`, { method: "DELETE" });
+                if (res.ok) cargarPlatos();
+                else alert("Error al borrar plato");
+              } catch (e) {
+                console.error(e);
+                alert("Error al borrar plato");
+              }
+            }
+          });
+        });
+
+        // Editar plato
+        document.querySelectorAll(".editar-plato").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            window.location.href =
+              `editar-plato.html?id=${id}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+        async function cargarReservas() {
+      try {
+        const res = await fetch(`${API_RESERVAS}/${restauranteId}`);
+        reservas = await res.json();
+
+        const contenedor = document.getElementById("lista-reservas");
+        contenedor.innerHTML = "";
+
+        reservas.forEach(r => {
+          const div = document.createElement("div");
+          div.className = "reserva";
+
+          const fechaFormateada =
+            new Date(r.fecha).toLocaleDateString("es-AR");
+
+          div.innerHTML = `
+            <p><strong>Nombre:</strong> ${r.nombre}</p>
+            <p><strong>Fecha:</strong> ${fechaFormateada}</p>
+            <p><strong>Hora:</strong> ${r.hora}</p>
+            <p><strong>Descripción:</strong> ${r.descripcion}</p>
+            <button class="editar-reserva" data-id="${r.id}">Editar</button>
+            <button class="borrar-reserva" data-id="${r.id}">Borrar</button>
+          `;
+          contenedor.appendChild(div);
+        });
+
+        document.querySelectorAll(".borrar-reserva").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Querés borrar esta reserva?")) {
+              try {
+                const res = await fetch(
+                  `http://localhost:3000/reservas/${id}`,
+                  { method: "DELETE" }
+                );
+                if (res.ok) cargarReservas();
+                else alert("Error al borrar reserva");
+              } catch (e) {
+                console.error(e);
+                alert("Error al borrar reserva");
+              }
+            }
+          });
+        });
+
+        document.querySelectorAll(".editar-reserva").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            window.location.href =
+              `editar-reserva.html?id=${id}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar las reservas");
+      }
+    }
+
+    document.getElementById("btn-agregar-plato").addEventListener("click", () => {
+      window.location.href =
+        `agregar-plato.html?restaurante_id=${restauranteId}`;
+    });
+
+    document.getElementById("btn-agregar-reserva").addEventListener("click", () => {
+      window.location.href =
+        `agregar-reserva.html?restaurante_id=${restauranteId}`;
+    });
+
+    cargarRestaurante();
+    cargarPlatos();
+    cargarReservas();
+  </script>
+
+</body>
+</html>
+
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar los platos");
+      }
+    }

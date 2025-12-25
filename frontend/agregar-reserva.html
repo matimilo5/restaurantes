@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Reserva</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+
+  <body>
+  <div class="container">
+    <h1>Agregar Reserva</h1>
+    <input type="text" id="nombre" placeholder="Nombre">
+    <input type="text" id="descripcion" placeholder="Descripción">
+    <input type="date" id="fecha">
+    <input type="time" id="hora">
+    <button id="guardar">Agregar</button>
+    <button id="cancelar">Cancelar</button>
+  </div>
+
+    <script>
+    const API_RESERVAS = "http://localhost:3000/reservas";
+    const params = new URLSearchParams(window.location.search);
+    const restaurante_id = params.get("restaurante_id");
+
+    document.getElementById("guardar").addEventListener("click", async () => {
+      const data = {
+        nombre: document.getElementById("nombre").value,
+        descripcion: document.getElementById("descripcion").value,
+        fecha: document.getElementById("fecha").value,
+        hora: document.getElementById("hora").value,
+        restaurante_id: Number(restaurante_id)
+      };
+
+      try {
+        const res = await fetch(API_RESERVAS, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        if(res.ok) {
+          alert("Reserva agregada correctamente");
+          window.location.href = `restaurante.html?id=${restaurante_id}`;
+        } else alert("Error al agregar reserva");
+      } catch(e) {
+        console.error(e);
+        alert("Error al agregar reserva");
+      }
+    });
+
+    document.getElementById("cancelar").addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restaurante_id}`;
+    });
+  </script>
+</body>
+</html>
+
