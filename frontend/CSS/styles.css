@@ -1,157 +1,37 @@
-/* Reset básico */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
-/* Body */
-body {
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  padding: 30px 0;
-}
-
-/* Contenedor principal */
-.container {
-  width: 900px;
-  max-width: 95%;
+/* HEADER PLATO */
+.plato-header {
+  background: linear-gradient(135deg, #ffffff, #f1f3f5);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 700px;
+  margin: 0 auto 40px auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
 
-/* Título */
-h1 {
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* Lista de restaurantes */
-#lista-restaurantes {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-}
-
-/* Restaurante individual */
-.restaurante {
-  background: white;
-  padding: 15px;
-  width: 100%;
-  display: flex;
-  gap: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  align-items: center;
-}
-
-/* Imagen del restaurante */
-.restaurante img {
-  width: 200px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
-/* Información del restaurante */
-.restaurante div {
-  text-align: left;
-  flex: 1;
-}
-
-/* Títulos internos */
-.restaurante h2 {
-  margin-bottom: 5px;
+.plato-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
   color: #222;
 }
 
-/* Párrafos */
-.restaurante p {
-  margin-bottom: 4px;
+.plato-header p {
+  margin: 6px 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+
+
+/* HEADER RESTAURANTE */
+.container h1#nombre-restaurante {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.container p {
+  margin: 4px 0;
   color: #555;
 }
-
-/* Enlaces y botones */
-.restaurante a,
-.restaurante button {
-  margin-top: 5px;
-  display: inline-block;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
-}
-
-/* Hover para botones/enlaces */
-.restaurante a:hover,
-.restaurante button:hover {
-  background-color: #0056b3;
-}
-
-/* Botón de agregar */
-#btn-agregar {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: none;
-  background-color: #28a745;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-/* Formulario de edición/agregar */
-form, #form-editar {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin-top: 20px;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-form input, form button, #form-editar input, #form-editar button {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 8px 10px;
-  font-size: 14px;
-}
-
-form button, #form-editar button {
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.2s;
-}
-
-form button:hover, #form-editar button:hover {
-  background-color: #0056b3;
-}
-
-/* Botón cancelar */
-#cancelar-edicion, #cancelar {
-  background-color: #dc3545;
-}
-
-#cancelar-edicion:hover, #cancelar:hover {
-  background-color: #a71d2a;
-}
-
-#btn-agregar:hover {
-  background-color: #1e7e34;
-}
-
 
