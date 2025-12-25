@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Restaurantes</title>
-  
   <link rel="stylesheet" href="CSS/styles.css">
 </head>
 <body>
@@ -11,6 +10,7 @@
   <div class="container">
     <h1>Restaurantes</h1>
     <div id="lista-restaurantes"></div>
+    <button id="btn-agregar">Agregar Restaurante</button>
   </div>
 
   <script>
@@ -36,10 +36,33 @@
               <p><strong>Ciudad:</strong> ${r.ciudad}</p>
               <p><strong>Tipo:</strong> ${r.tipo_comida}</p>
               <p><strong>Calificación:</strong> ⭐ ${r.calificacion}</p>
-              <a href="restaurante.html?id=${r.id}">Ver restaurante</a>
+              <a href="restaurante.html?id=${r.id}"><button>Ver</button></a>
+              <a href="editar.html?id=${r.id}">Editar</a>
+              <button class="borrar-btn" data-id="${r.id}">Borrar</button>
             </div>
           `;
           contenedor.appendChild(div);
+        });
+
+        // Borrar restaurante
+        document.querySelectorAll(".borrar-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Querés borrar este restaurante?")) {
+              try {
+                const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+                if (res.ok) {
+                  alert("Restaurante borrado correctamente");
+                  cargarRestaurantes();
+                } else {
+                  alert("Error al borrar restaurante");
+                }
+              } catch (error) {
+                console.error(error);
+                alert("Error al borrar restaurante");
+              }
+            }
+          });
         });
 
       } catch (error) {
@@ -48,8 +71,14 @@
       }
     }
 
+    // Botón de agregar
+    document.getElementById("btn-agregar").addEventListener("click", () => {
+      window.location.href = "agregar.html";
+    });
+
     cargarRestaurantes();
   </script>
 
 </body>
 </html>
+
