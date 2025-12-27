@@ -1,1 +1,1 @@
-
+-- no agreguen nada en este, el verdadero init.sql esta en /backend/db/init.sql
