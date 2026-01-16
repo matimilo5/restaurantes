@@ -6,6 +6,7 @@ import restaurantesRoutes from "./routes/restaurantes.js";
 import platosRoutes from "./routes/platos.js"; 
 import reservasRoutes from "./routes/reservas.js";
 import ingredientesRoutes from "./routes/ingredientes.js";
+import resenias from "./routes/resenias.js";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/restaurantes", restaurantesRoutes);
 app.use("/platos", platosRoutes); 
 app.use("/reservas", reservasRoutes);
 app.use("/ingredientes", ingredientesRoutes);
+app.use("/resenias", resenias);
 
 // Puerto
 const PORT = process.env.PORT || 3000;

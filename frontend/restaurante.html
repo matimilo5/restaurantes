@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  <div id="overlay"></div>
+  
 
   <div class="container">
     <!-- Botón Home -->
@@ -26,12 +26,21 @@
     <h2>Reservas</h2>
     <div id="lista-reservas"></div>
     <button id="btn-agregar-reserva">Agregar Reserva</button>
+
+    <h2>Reseñas</h2>
+    <div id="lista-resenias"></div>
+    <button id="btn-agregar-resenia">Agregar Reseña</button>
+
+
   </div>
+
+  <div id="overlay"></div>
 
   <script>
     const API_RESTAURANTES = "http://localhost:3000/restaurantes";
     const API_PLATOS = "http://localhost:3000/platos";
     const API_RESERVAS = "http://localhost:3000/reservas/restaurante";
+    const API_RESENIAS = "http://localhost:3000/resenias/restaurante";
     const params = new URLSearchParams(window.location.search);
     const restauranteId = params.get("id");
 
@@ -193,6 +202,60 @@
       }
     }
 
+    async function cargarResenias() {
+      try {
+        const res = await fetch(`${API_RESENIAS}/${restauranteId}`);
+        const resenias = await res.json();
+
+        const contenedor = document.getElementById("lista-resenias");
+        contenedor.innerHTML = "";
+
+        resenias.forEach(r => {
+          const div = document.createElement("div");
+          div.className = "resenia";
+
+          div.innerHTML = `
+            <p><strong>Comensal:</strong> ${r.comensal}</p>
+            <p>${r.titulo}</p>
+            <p>Calificación: ⭐ ${r.estrellas}</p>
+
+            <button class="editar-resenia" data-id="${r.id}">Editar</button>
+            <button class="borrar-resenia" data-id="${r.id}">Borrar</button>
+          `;
+
+          contenedor.appendChild(div);
+        });
+
+        // borrar
+        document.querySelectorAll(".borrar-resenia").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("¿Querés borrar esta reseña?")) {
+              const res = await fetch(
+                `http://localhost:3000/resenias/${id}`,
+                { method: "DELETE" }
+              );
+              if (res.ok) cargarResenias();
+            }
+          });
+        });
+
+        // editar
+        document.querySelectorAll(".editar-resenia").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+            window.location.href =
+              `editar-resenia.html?id=${id}&restaurante_id=${restauranteId}`;
+          });
+        });
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar reseñas");
+      }
+    }
+
+
     document.getElementById("btn-agregar-plato").addEventListener("click", () => {
       window.location.href =
         `agregar-plato.html?restaurante_id=${restauranteId}`;
@@ -203,9 +266,17 @@
         `agregar-reserva.html?restaurante_id=${restauranteId}`;
     });
 
+    document.getElementById("btn-agregar-resenia").addEventListener("click", () => {
+      window.location.href =
+        `agregar-resenia.html?restaurante_id=${restauranteId}`;
+    });
+
+
     cargarRestaurante();
     cargarPlatos();
     cargarReservas();
+    cargarResenias();
+
   </script>
 
 </body>

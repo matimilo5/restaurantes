@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Reseña</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Editar reseña</h1>
+
+     <form id="form-resenia">
+        <label>
+            Nombre del comensal
+            <input type="text" id="comensal" required>
+        </label>
+
+        <label>
+            Título
+            <input type="text" id="titulo" required>
+        </label>
+
+        <label>
+            Contenido
+            <textarea id="contenido" required></textarea>
+        </label>
+
+        <label>
+            Estrellas
+            <select id="estrellas" required>
+                <option value="">Seleccionar</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+        </label>
+
+        <button type="submit">Guardar reseña</button>
+        <button type="button" id="btn-cancelar">Cancelar</button>
+    </form>
+  </div>
+
+  <script>
+    const API_RESENIAS = "http://localhost:3000/resenias";
+
+    const params = new URLSearchParams(window.location.search);
+    const reseniaId = params.get("id");
+    const restauranteId = params.get("restaurante_id");
+
+    const form = document.getElementById("form-resenia");
+
+    document.getElementById("btn-cancelar").addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restauranteId}`;
+    });
+
+    async function cargarResenia() {
+      try {
+        const res = await fetch(`${API_RESENIAS}/${reseniaId}`);
+        const resenia = await res.json();
+
+        document.getElementById("comensal").value = resenia.comensal;
+        document.getElementById("titulo").value = resenia.titulo;
+        document.getElementById("contenido").value = resenia.contenido;
+        document.getElementById("estrellas").value = resenia.estrellas;
+      } catch (error) {
+        console.error(error);
+        alert("Error al cargar la reseña");
+      }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const reseniaEditada = {
+        comensal: document.getElementById("comensal").value,
+        titulo: document.getElementById("titulo").value,
+        contenido: document.getElementById("contenido").value,
+        estrellas: document.getElementById("estrellas").value
+      };
+
+      try {
+        const res = await fetch(`${API_RESENIAS}/${reseniaId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(reseniaEditada)
+        });
+
+        if (!res.ok) {
+          alert("Error al editar reseña");
+          return;
+        }
+
+        window.location.href = `restaurante.html?id=${restauranteId}`;
+      } catch (error) {
+        console.error(error);
+        alert("Error al conectar con el servidor");
+      }
+    });
+
+    cargarResenia();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Reseña</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>Agregar reseña</h1>
+
+    <form id="form-resenia">
+        <label>
+            Nombre del comensal
+            <input type="text" id="comensal" required>
+        </label>
+
+        <label>
+            Título
+            <input type="text" id="titulo" required>
+        </label>
+
+        <label>
+            Contenido
+            <textarea id="contenido" required></textarea>
+        </label>
+
+        <label>
+            Estrellas
+            <select id="estrellas" required>
+                <option value="">Seleccionar</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+        </label>
+
+        <button type="submit">Guardar reseña</button>
+        <button type="button" id="btn-cancelar">Cancelar</button>
+    </form>
+  </div>
+
+  <script>
+    const API_RESENIAS = "http://localhost:3000/resenias";
+
+    // Obtener el id del restaurante desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const restauranteId = params.get("restaurante_id");
+
+    const form = document.getElementById("form-resenia");
+    const btnCancelar = document.getElementById("btn-cancelar");
+
+    btnCancelar.addEventListener("click", () => {
+      window.location.href = `restaurante.html?id=${restauranteId}`;
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nuevaResenia = {
+        restaurante_id: restauranteId,
+        comensal: document.getElementById("comensal").value,
+        titulo: document.getElementById("titulo").value,
+        contenido: document.getElementById("contenido").value,
+        estrellas: document.getElementById("estrellas").value
+      };
+
+
+      try {
+        const res = await fetch(API_RESENIAS, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(nuevaResenia)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          alert("Error al agregar reseña: " + (errData.error || res.status));
+          return;
+        }
+
+        // Redirigir al restaurante y recargar reseñas
+        window.location.href = `restaurante.html?id=${restauranteId}`;
+      } catch (error) {
+        console.error(error);
+        alert("Error al conectar con el servidor");
+      }
+    });
+  </script>
+
+</body>
+</html>

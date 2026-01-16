@@ -9,6 +9,18 @@ CREATE TABLE restaurantes (
     foto_url TEXT
 );
 
+-- Resenias
+CREATE TABLE resenias (
+  id SERIAL PRIMARY KEY,
+  restaurante_id INT REFERENCES restaurantes(id) ON DELETE CASCADE,
+  comensal VARCHAR(100) NOT NULL,
+  titulo VARCHAR(255),
+  contenido TEXT NOT NULL,
+  estrellas INTEGER CHECK (estrellas BETWEEN 1 AND 5),
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  fecha_modificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Platos
 CREATE TABLE platos (
     id SERIAL PRIMARY KEY,
